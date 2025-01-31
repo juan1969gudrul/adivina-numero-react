@@ -1,6 +1,29 @@
 import "./App.css";
 
+import { useState, useRef } from "react";
+
+const number = Math.trunc(Math.random() * 20) + 1;
+
 function App() {
+  const [score, setScore] = useState(20);
+  const [highscore, setHighscore] = useState(0);
+  const inputRef = useRef();
+  const handleCheck = () => {
+    //comprobar si el valor introducido es igual al numero aleatorio
+    const inputNumber = Number(inputRef.current.value);
+    if (inputNumber === number) {
+      //hemos ganado
+    } else if (inputNumber > number) {
+      //el numero introducido es mayor que el numero aleatorio
+      message("📈 Too high!");
+    } else {
+      //el numero introducido es menor que el numero aleatorio
+      message("📉 Too low!");
+    }
+
+    setScore(score - 1);
+  };
+
   return (
     <>
       <header>
@@ -12,16 +35,18 @@ function App() {
       Name
       <main>
         <section className="left">
-          <input type="number" className="guess" />
-          <button className="btn check">Check!</button>
+          <input type="number" className="guess" ref={inputRef} />
+          <button className="btn check" onClick={handleCheck}>
+            Check!
+          </button>
         </section>
         <section className="right">
           <p className="message">Start guessing...</p>
           <p className="label-score">
-            💯 Score: <span className="score">20</span>
+            💯 Score: <span className="score">{score}</span>
           </p>
           <p className="label-highscore">
-            🥇 Highscore: <span className="highscore">0</span>
+            🥇 Highscore: <span className="highscore">{highscore}</span>
           </p>
         </section>
       </main>
